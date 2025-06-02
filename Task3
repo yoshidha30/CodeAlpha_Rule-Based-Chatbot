@@ -1,0 +1,56 @@
+default_responses = {
+    "hi": "👋 Hello there!",
+    "hello": "👋 Hi!",
+    "hey": "👋 Hey!",
+    "how are you": "😊 I'm doing great, thanks!",
+    "what is your name": "🤖 I'm ChatBot, your virtual assistant.",
+    "who are you": "🤖 I'm a simple chatbot here to talk with you!",
+    "bye": "👋 Goodbye! Have a wonderful day!",
+    "goodbye": "👋 See you next time!",
+    "thanks": "🙏 You're welcome!",
+    "thank you": "😊 Happy to help!",
+}
+
+# 🧠 Custom user-taught responses stored during the chat session
+custom_responses = {}
+
+def respond_to_user(message):
+    message = message.lower().strip()
+
+    # Check in default rules
+    if message in default_responses:
+        return default_responses[message]
+    
+    # Check in user-taught custom responses
+    elif message in custom_responses:
+        return custom_responses[message]
+    
+    # Ask user to teach the bot
+    else:
+        print("🤔 I don't know how to respond to that.")
+        teach = input("❓ Would you like to teach me a response? (yes/no): ").lower().strip()
+        if teach == "yes":
+            new_reply = input("📝 What should I say when you say this? ")
+            custom_responses[message] = new_reply
+            print("✅ Got it! I'll remember that.")
+            return new_reply
+        else:
+            return "😅 Okay, let's continue chatting!"
+
+def chatbot():
+    print("💬 Welcome to Smart ChatBot!")
+    print("Type something to chat with me (say 'bye' to end).\n")
+
+    while True:
+        user_input = input("You: ")
+        if user_input.lower().strip() in ["bye", "goodbye", "exit"]:
+            print("Bot: 👋 Goodbye! It was nice talking to you.")
+            break
+        
+        reply = respond_to_user(user_input)
+        print("Bot:", reply)
+
+    print("🛑 ChatBot session ended.")
+
+# Start chatting!
+chatbot()
